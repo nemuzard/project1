@@ -10,6 +10,9 @@ import com.example.student.service.StudentService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.List;
@@ -52,6 +55,10 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    @Transactional(
+            isolation = Isolation.READ_COMMITTED,
+            propagation = Propagation.REQUIRED
+    )
     public StudentDto updateStudent(Long studentId, StudentDto updatedStudent) {
         // check if student exist
         Student student=studentRepository.findById(studentId).orElseThrow(()
@@ -62,8 +69,9 @@ public class StudentServiceImpl implements StudentService {
         student.setEmail(updatedStudent.getEmail());
 
         Student updatedStudentObj = studentRepository.save(student);
+        throw new IllegalStateException("Test rollback");
+        //return StudentMapper.mapToStudentDto(updatedStudentObj);
 
-        return StudentMapper.mapToStudentDto(updatedStudentObj);
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.example.student.dto.StudentDto;
 import com.example.student.entity.Student;
 import com.example.student.repository.StudentRepository;
 import com.example.student.service.StudentService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class StudentController {
 
     // build add student REST API - a post request
     @PostMapping
-    public ResponseEntity<StudentDto> createStudent(@RequestBody StudentDto studentDto){
+    public ResponseEntity<StudentDto> createStudent(@Valid @RequestBody StudentDto studentDto){
         StudentDto savedStudent = studentService.createStudent(studentDto);
         return new ResponseEntity<>(savedStudent, HttpStatus.CREATED);
     }

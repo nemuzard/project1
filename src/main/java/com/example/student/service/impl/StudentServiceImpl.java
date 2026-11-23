@@ -2,6 +2,7 @@ package com.example.student.service.impl;
 
 import com.example.student.dto.StudentDto;
 import com.example.student.entity.Student;
+import com.example.student.exception.DuplicateStudentCreationException;
 import com.example.student.exception.ResourceNotFoundException;
 import com.example.student.mapper.StudentMapper;
 import com.example.student.repository.StudentRepository;
@@ -24,6 +25,10 @@ public class StudentServiceImpl implements StudentService {
     // we get the student information from client side so dto->entity
     public StudentDto createStudent(StudentDto studentDto) {
         Student student = StudentMapper.mapToStudent(studentDto);
+        //check if student exist
+        if(studentRepository.existsByEmail(student.getEmail())){
+            throw new DuplicateStudentCreationException("Check! Record already exists ");
+        }
         // save will assign a student id
         Student savedStudent = studentRepository.save(student);// save to database
         return StudentMapper.mapToStudentDto(savedStudent);

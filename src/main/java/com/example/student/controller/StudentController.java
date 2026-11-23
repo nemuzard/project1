@@ -18,7 +18,6 @@ public class StudentController {
 
     // inject dependencies
     private StudentService studentService;
-    private StudentRepository studentRepository;
 
     // build add student REST API - a post request
     @PostMapping

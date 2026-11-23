@@ -69,8 +69,8 @@ public class StudentServiceImpl implements StudentService {
         student.setEmail(updatedStudent.getEmail());
 
         Student updatedStudentObj = studentRepository.save(student);
-        throw new IllegalStateException("Test rollback");
-        //return StudentMapper.mapToStudentDto(updatedStudentObj);
+        //throw new IllegalStateException("Test rollback");
+        return StudentMapper.mapToStudentDto(updatedStudentObj);
 
     }
 
